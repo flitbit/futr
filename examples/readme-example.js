@@ -1,19 +1,4 @@
-futr [![Build Status](https://travis-ci.org/flitbit/futr.png)](http://travis-ci.org/flitbit/futr)
-====
-
-Simple Future Variables in javascript.
-
-## Installation
-
-[node.js](http://nodejs.org)
-```bash
-$ npm install json-ptr
-```
-
-## Example
-
-```javascript
-var Future = require('futr')
+var Future = require('..')
 , assert = require('assert')
 ;
 
@@ -58,4 +43,3 @@ assert.strictEqual(capture, 2);
 assert.ok(one.has());
 assert.ok(two.has());
 assert.ok(!three.has());
-```
