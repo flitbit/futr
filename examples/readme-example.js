@@ -4,6 +4,7 @@ var Future = require('..')
 
 var one = Future.create()
 , two = Future.create()
+, three = Future.create()
 ;
 
 // One has no value...
