@@ -7,7 +7,7 @@ Simple Future Variables in javascript.
 
 [node.js](http://nodejs.org)
 ```bash
-$ npm install json-ptr
+$ npm install futr
 ```
 
 ## Example
