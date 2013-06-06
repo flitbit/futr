@@ -67,7 +67,7 @@ Object.defineProperties(Future.prototype,
 		{
 			var res
 			;
-			if (typeof val === 'undefined' && callback) {
+			if (typeof this._val === 'undefined' && callback) {
 				this.notify(callback);
 			} else {
 				var res = (this._isFactory) ? this._val() : this._val;
