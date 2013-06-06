@@ -22,10 +22,10 @@
 			});
 	}
 
-function Future(val) {
+function Future(val, isFactory) {
 	Object.defineProperty(this, '_callbacks', { value: [] });
 	if (typeof val !== 'undefined') {
-		this.set(val);
+		this.set(val, isFactory);
 	}
 }
 
@@ -34,10 +34,9 @@ Object.defineProperties(Future.prototype,
 	notify:
 	{
 		value: function(callback) {
-			var val = this._val;
 			if (callback) {
 				if (typeof val !== 'undefined') {
-					callback(val);
+					callback((this._isFactory) ? this._val() : this._val);
 				} else {
 					this._callbacks.push(callback);
 				}
@@ -45,9 +44,11 @@ Object.defineProperties(Future.prototype,
 				var callbacks = this._callbacks
 				, len = (callbacks) ? callbacks.length : 0
 				, i = -1
+				, val = this._val
+				, isFactory = this._isFactory
 				;
 				while(++i < len) {
-					callbacks[i](val);
+					callbacks[i]((isFactory) ? val() : val);
 				}
 				this._callbacks.length = 0;
 			}
@@ -64,29 +65,39 @@ Object.defineProperties(Future.prototype,
 	{
 		value: function(callback)
 		{
-			if (typeof callback === 'function') {
+			var res
+			;
+			if (typeof val === 'undefined' && callback) {
 				this.notify(callback);
+			} else {
+				var res = (this._isFactory) ? this._val() : this._val;
+				if (callback) {
+					callback(res);
+				}
 			}
-			return this._val;
+			return res;
 		},
 		enumerable: true
 	},
 	set:
 	{
-		value: function(val) {
+		value: function(val, isFactory) {
 			if (typeof this._val !== 'undefined') {
 				throw new Error('Invalid operation; future variable already set.');
 			}
-			Object.defineProperty(this, "_val", { value: val });
+			Object.defineProperties(this, {
+				_val: { value: val },
+				_isFactory: { value: isFactory }
+			});
 			this.notify();
-			return val;
+			return (isFactory) ? val() : val;
 		},
 		enumerable: true
 	}
 });
 
-Future.create = function(val) {
-	return new Future(val);
+Future.create = function(val, isFactory) {
+	return new Future(val, isFactory);
 };
 
 Future.noConflict = function () {
