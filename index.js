@@ -87,7 +87,7 @@ Object.defineProperties(Future.prototype,
 			}
 			Object.defineProperties(this, {
 				_val: { value: val },
-				_isFactory: { value: isFactory }
+				_isFactory: { value: isFactory && typeof val === "function" }
 			});
 			this.notify();
 			return (isFactory) ? val() : val;
