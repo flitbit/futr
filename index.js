@@ -70,7 +70,7 @@ Object.defineProperties(Future.prototype,
 			if (typeof this._val === 'undefined' && callback) {
 				this.notify(callback);
 			} else {
-				var res = (this._isFactory) ? this._val() : this._val;
+				res = (this._isFactory) ? this._val() : this._val;
 				if (callback) {
 					callback(res);
 				}
@@ -105,8 +105,8 @@ Future.noConflict = function () {
 			conflictResolution.forEach(function (it) { it(); });
 			conflictResolution = null;
 		}
-		return Define;
-	}
+		return Future;
+	};
 
 	if (typeof module != 'undefined' && module && typeof exports == 'object' && exports && module.exports === exports) {
 		module.exports = Future; // nodejs
